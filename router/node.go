@@ -5,7 +5,7 @@ import "net/http"
 type Node struct {
 	value        string
 	children     map[string]*Node
-	handle       func(w http.ResponseWriter, r *http.Request)
+	Handle       func(w http.ResponseWriter, r *http.Request)
 	pathVariable *Node
 }
 
@@ -17,7 +17,7 @@ func NewNodeWith(value string, handler func(w http.ResponseWriter, r *http.Reque
 	return &Node{
 		value:    value,
 		children: make(map[string]*Node),
-		handle:   handler,
+		Handle:   handler,
 	}
 }
 
@@ -35,4 +35,13 @@ func (n *Node) getChild(childrenName string) *Node {
 
 func (n *Node) hasPathVariable() bool {
 	return n.pathVariable != nil
+}
+
+func (n *Node) getCopy() Node {
+	return Node{
+		value:        n.value,
+		children:     n.children,
+		Handle:       n.Handle,
+		pathVariable: n.pathVariable,
+	}
 }
