@@ -27,19 +27,15 @@ func TestInsert(t *testing.T) {
 
 	tree.Insert(path, handle)
 
-	if root.children[""] == nil {
-		t.Error("Expecting not to be nil")
-	}
-
-	if root.children[""].children["users"] == nil {
+	if root.children["users"] == nil {
 		t.Error("Expecting /users not to be nil")
 	}
 
-	if root.children[""].children["users"].children["123"] == nil {
+	if root.children["users"].children["123"] == nil {
 		t.Error("Expecting /users/123 not to be nil")
 	}
 
-	if root.children[""].children["users"].children["123"].children["posts"] == nil {
+	if root.children["users"].children["123"].children["posts"] == nil {
 		t.Error("Expecting /users/123/posts not to be nil")
 	}
 
@@ -48,15 +44,11 @@ func TestInsert(t *testing.T) {
 
 	tree.Insert(path, handle)
 
-	if root.children[""] == nil {
-		t.Error("Expecting not to be nil")
-	}
-
-	if root.children[""].children["users"] == nil {
+	if root.children["users"] == nil {
 		t.Error("Expecting /users not to be nil")
 	}
 
-	if root.children[""].children["users"].children["profile"] == nil {
+	if root.children["users"].children["profile"] == nil {
 		t.Error("Expecting /users/profile not to be nil")
 	}
 }
@@ -74,27 +66,23 @@ func TestInsertWithPathVariable(t *testing.T) {
 
 	tree.Insert(path, handle)
 
-	if root.children[""] == nil {
-		t.Error("Expecting not to be nil")
-	}
-
-	if root.children[""].children["users"] == nil {
+	if root.children["users"] == nil {
 		t.Error("Expecting /users not to be nil")
 	}
 
-	if root.children[""].children["users"].pathVariable == nil {
+	if root.children["users"].pathVariable == nil {
 		t.Error("Expecting /users/:id path variable not to be nil")
 	}
 
-	if root.children[""].children["users"].pathVariable.children["posts"] == nil {
+	if root.children["users"].pathVariable.children["posts"] == nil {
 		t.Error("Expecting /users/:id/posts not to be nil")
 	}
 
-	if root.children[""].children["users"].children["new"] == nil {
+	if root.children["users"].children["new"] == nil {
 		t.Error("Expecting /users/new/posts not to be nil")
 	}
 
-	if root.children[""].children["users"].children["new"].children["posts"] == nil {
+	if root.children["users"].children["new"].children["posts"] == nil {
 		t.Error("Expecting /users/new/posts not to be nil")
 	}
 }
@@ -107,19 +95,15 @@ func TestWith2PathVariable(t *testing.T) {
 
 	tree.Insert(path, func(w http.ResponseWriter, r *http.Request) {})
 
-	if root.children[""] == nil {
-		t.Error("Expecting not to be nil")
-	}
-
-	if root.children[""].children["users"] == nil {
+	if root.children["users"] == nil {
 		t.Error("Expecting /users not to be nil")
 	}
 
-	if root.children[""].children["users"].pathVariable == nil {
+	if root.children["users"].pathVariable == nil {
 		t.Error("Expecting :id path variable not to be nil")
 	}
 
-	if root.children[""].children["users"].pathVariable.pathVariable == nil {
+	if root.children["users"].pathVariable.pathVariable == nil {
 		t.Error("Expecting :region path variable not to be nil")
 	}
 
@@ -127,23 +111,19 @@ func TestWith2PathVariable(t *testing.T) {
 
 	tree.Insert(path, func(w http.ResponseWriter, r *http.Request) {})
 
-	if root.children[""] == nil {
-		t.Error("Expecting not to be nil")
-	}
-
-	if root.children[""].children["users"] == nil {
+	if root.children["users"] == nil {
 		t.Error("Expecting /users not to be nil")
 	}
 
-	if root.children[""].children["users"].pathVariable == nil {
+	if root.children["users"].pathVariable == nil {
 		t.Error("Expecting :id path variable not to be nil")
 	}
 
-	if root.children[""].children["users"].pathVariable.children["test"] == nil {
+	if root.children["users"].pathVariable.children["test"] == nil {
 		t.Error("Expecting /test path variable not to be nil")
 	}
 
-	if root.children[""].children["users"].pathVariable.children["test"].pathVariable == nil {
+	if root.children["users"].pathVariable.children["test"].pathVariable == nil {
 		t.Error("Expecting :region path variable not to be nil")
 	}
 }
@@ -156,23 +136,19 @@ func TestWith3PathVariable(t *testing.T) {
 
 	tree.Insert(path, func(w http.ResponseWriter, r *http.Request) {})
 
-	if root.children[""] == nil {
-		t.Error("Expecting not to be nil")
-	}
-
-	if root.children[""].children["users"] == nil {
+	if root.children["users"] == nil {
 		t.Error("Expecting /users not to be nil")
 	}
 
-	if root.children[""].children["users"].pathVariable == nil {
+	if root.children["users"].pathVariable == nil {
 		t.Error("Expecting :id path variable not to be nil")
 	}
 
-	if root.children[""].children["users"].pathVariable.pathVariable == nil {
+	if root.children["users"].pathVariable.pathVariable == nil {
 		t.Error("Expecting :region path variable not to be nil")
 	}
 
-	if root.children[""].children["users"].pathVariable.pathVariable.pathVariable == nil {
+	if root.children["users"].pathVariable.pathVariable.pathVariable == nil {
 		t.Error("Expecting :country path variable not to be nil")
 	}
 }
