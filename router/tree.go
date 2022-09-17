@@ -10,7 +10,7 @@ type Tree struct {
 	Root *Node
 }
 
-func (t *Tree) Insert(path string, handler func(w http.ResponseWriter, r *http.Request)) {
+func (t *Tree) Insert(path string, handler func(w http.ResponseWriter, r *http.Request, extraInfo *ExtraInfo)) {
 	splitPath := strings.Split(cleanPath(path), "/")
 	currentNode := t.Root
 
@@ -53,7 +53,7 @@ func isPathVariable(value string) bool {
 	return strings.HasPrefix(value, ":")
 }
 
-func updateNodePathVariable(value string, handler func(w http.ResponseWriter, r *http.Request), node *Node) {
+func updateNodePathVariable(value string, handler func(w http.ResponseWriter, r *http.Request, extraInfo *ExtraInfo), node *Node) {
 
 	if node.pathVariable != nil {
 		node.pathVariable.Handle = handler
@@ -68,7 +68,7 @@ func isEndpoint(currentIndex int, qtyOfPoints int) bool {
 	return currentIndex == (qtyOfPoints - 1)
 }
 
-func updateNodeHandler(handler func(w http.ResponseWriter, r *http.Request), node *Node) {
+func updateNodeHandler(handler func(w http.ResponseWriter, r *http.Request, extraInfo *ExtraInfo), node *Node) {
 	node.Handle = handler
 }
 

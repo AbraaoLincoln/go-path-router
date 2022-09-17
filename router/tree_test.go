@@ -21,7 +21,7 @@ func TestIsPathVariable(t *testing.T) {
 
 func TestInsert(t *testing.T) {
 	path := "/users/123/posts"
-	handle := func(w http.ResponseWriter, r *http.Request) { fmt.Println("handler1") }
+	handle := func(w http.ResponseWriter, r *http.Request, extraInfo *ExtraInfo) { fmt.Println("handler1") }
 	root := NewNode()
 	tree := Tree{Root: &root}
 
@@ -40,7 +40,7 @@ func TestInsert(t *testing.T) {
 	}
 
 	path = "/users/profile"
-	handle = func(w http.ResponseWriter, r *http.Request) { fmt.Println("handler2") }
+	handle = func(w http.ResponseWriter, r *http.Request, extraInfo *ExtraInfo) { fmt.Println("handler2") }
 
 	tree.Insert(path, handle)
 
@@ -55,14 +55,14 @@ func TestInsert(t *testing.T) {
 
 func TestInsertWithPathVariable(t *testing.T) {
 	path := "/users/:id/posts"
-	handle := func(w http.ResponseWriter, r *http.Request) { fmt.Println("handler1") }
+	handle := func(w http.ResponseWriter, r *http.Request, extraInfo *ExtraInfo) { fmt.Println("handler1") }
 	root := NewNode()
 	tree := Tree{Root: &root}
 
 	tree.Insert(path, handle)
 
 	path = "/users/new/posts"
-	handle = func(w http.ResponseWriter, r *http.Request) { fmt.Println("handler2") }
+	handle = func(w http.ResponseWriter, r *http.Request, extraInfo *ExtraInfo) { fmt.Println("handler2") }
 
 	tree.Insert(path, handle)
 
@@ -93,7 +93,7 @@ func TestWith2PathVariable(t *testing.T) {
 	root.value = "/"
 	tree := Tree{Root: &root}
 
-	tree.Insert(path, func(w http.ResponseWriter, r *http.Request) {})
+	tree.Insert(path, func(w http.ResponseWriter, r *http.Request, extraInfo *ExtraInfo) {})
 
 	if root.children["users"] == nil {
 		t.Error("Expecting /users not to be nil")
@@ -109,7 +109,7 @@ func TestWith2PathVariable(t *testing.T) {
 
 	path = "/users/:id/test/:region"
 
-	tree.Insert(path, func(w http.ResponseWriter, r *http.Request) {})
+	tree.Insert(path, func(w http.ResponseWriter, r *http.Request, extraInfo *ExtraInfo) {})
 
 	if root.children["users"] == nil {
 		t.Error("Expecting /users not to be nil")
@@ -134,7 +134,7 @@ func TestWith3PathVariable(t *testing.T) {
 	root.value = "/"
 	tree := Tree{Root: &root}
 
-	tree.Insert(path, func(w http.ResponseWriter, r *http.Request) {})
+	tree.Insert(path, func(w http.ResponseWriter, r *http.Request, extraInfo *ExtraInfo) {})
 
 	if root.children["users"] == nil {
 		t.Error("Expecting /users not to be nil")
@@ -157,7 +157,7 @@ func TestFindNodeWithoutPathVariable(t *testing.T) {
 	path := "/users/region/country"
 	root := NewNodeWith("/", nil)
 	tree := Tree{Root: root}
-	tree.Insert(path, func(w http.ResponseWriter, r *http.Request) { fmt.Println("handler 1") })
+	tree.Insert(path, func(w http.ResponseWriter, r *http.Request, extraInfo *ExtraInfo) { fmt.Println("handler 1") })
 
 	node, pathVariables, err := tree.Find(path)
 
@@ -179,7 +179,7 @@ func TestFindNodeWithPathVariable(t *testing.T) {
 	path := "/users/:id/test/:region/:country"
 	root := NewNodeWith("/", nil)
 	tree := Tree{Root: root}
-	tree.Insert(path, func(w http.ResponseWriter, r *http.Request) { fmt.Println("handler 1") })
+	tree.Insert(path, func(w http.ResponseWriter, r *http.Request, extraInfo *ExtraInfo) { fmt.Println("handler 1") })
 
 	node, pathVariables, err := tree.Find("/users/123/test/sa/br")
 
@@ -224,7 +224,7 @@ func TestFindNodeWith2PathVariable(t *testing.T) {
 	path := "/users/:id/:region"
 	root := NewNodeWith("/", nil)
 	tree := Tree{Root: root}
-	tree.Insert(path, func(w http.ResponseWriter, r *http.Request) { fmt.Println("handler 1") })
+	tree.Insert(path, func(w http.ResponseWriter, r *http.Request, extraInfo *ExtraInfo) { fmt.Println("handler 1") })
 
 	node, pathVariables, err := tree.Find("/users/123/sa")
 
@@ -261,7 +261,7 @@ func TestFindNodeWithOnlyPathVariable(t *testing.T) {
 	path := "/:id/:region"
 	root := NewNodeWith("/", nil)
 	tree := Tree{Root: root}
-	tree.Insert(path, func(w http.ResponseWriter, r *http.Request) { fmt.Println("handler 1") })
+	tree.Insert(path, func(w http.ResponseWriter, r *http.Request, extraInfo *ExtraInfo) { fmt.Println("handler 1") })
 
 	node, pathVariables, err := tree.Find("/123/sa")
 
@@ -298,7 +298,7 @@ func TestFindNodeWith1PathVariable1Fixed(t *testing.T) {
 	path := "/:id/region"
 	root := NewNodeWith("/", nil)
 	tree := Tree{Root: root}
-	tree.Insert(path, func(w http.ResponseWriter, r *http.Request) { fmt.Println("handler 1") })
+	tree.Insert(path, func(w http.ResponseWriter, r *http.Request, extraInfo *ExtraInfo) { fmt.Println("handler 1") })
 
 	node, pathVariables, err := tree.Find("/123/region")
 
